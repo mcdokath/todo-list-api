@@ -40,7 +40,7 @@ class Mod(webapp2.RequestHandler):
 			self.response.status_message = "Not Acceptable, API only supports application/json MIME type"
 			return
 		if 'id' in kwargs:
-			out = ndb.Key(db_models.Mod, int(kwargs['id]')).get().to_dict()
+			out = ndb.Key(db_models.Mod, int(kwargs['id'])).get().to_dict()
 			self.response.write(json.dumps(out))
 		else:
 			q = db_models.Mod.query()
