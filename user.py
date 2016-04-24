@@ -51,6 +51,7 @@ class User(webapp2.RequestHandler):
 			results = { 'keys' : [x.id() for x in keys]}
 			self.response.write(json.dumps(results))
 
+class UserUpdate(webapp2.RequestHandler):
 	def put(self, **kwargs):
 		if 'application/json' not in self.request.accept:
 			self.response.status = 406
@@ -60,9 +61,17 @@ class User(webapp2.RequestHandler):
 			username = self.request.get('username', default_value=None)
 			email = self.request.get('email', default_value=None)
 			name = self.request.get('name', default_value=None)
+			# find user to update
+			q = db_models.User.query()
+			q = q.filter(db_models.User.username == username)
+			print q
 			
 			#out = ndb.Key(db_models.User, int(kwargs['id'])).get().to_dict()
 			#self.response.write(json.dumps(out))
+
+class UserDelete(webapp2.RequestHandler):
+	def delete(self, **kwargs):
+		print "hello"
 		
 class UserSearch(webapp2.RequestHandler):
 	def post(self):

@@ -1,7 +1,25 @@
-curl --data "username=bob&email=bob@bob.com" -H "Accept: application/json" http://localhost:8080/user
+## HTTP GET ##
+## GOOD ## 
+curl -H "Accept: application/json" http://localhost:8080/user/5275456790069248
+## BAD ## 
+curl -H "Accept: application/json" http://localhost:8080/user/1234
 
-curl -H "Accept: application/json" http://localhost:8080/user/5838406743490560
+## HTTP POST ##
+## GOOD ##
+curl --data "username=testuser&email=test@test.com" -H "Accept: application/json" http://localhost:8080/user
+## BAD ##
+- does not include required elements
+curl --data "username=testuser" -H "Accept: application/json" http://localhost:8080/user
+- asking POST from the wrong URL
+curl --data "username=testuser&email=test@test.com" -H "Accept: application/json" http://localhost:8080
 
-curl --data-urlencode "name=Test Channel" --data-urlencode "topics[]=topic 1" --data-urlencode "topics[]=topic 2" -d "mods[]=5629499534213120" -d "mods[]=5910974510923776" -H "Accept: application/json" http://localhost:8080/channel
+## HTTP PUT ##
+## GOOD ##
+curl --data-urlencode "name=Test List" --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/list
+## BAD ##
+- does not include required elements
+curl --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/list
+- asking PUT from the wrong URL
+curl --data-urlencode "name=Test List" --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/user
 
-curl -X PUT -H "Accept: application/json" http://localhost:8080/channel/4573968371548160/mod/5066549580791808
+curl -X PUT -H "Accept: application/json" http://localhost:8080/list/6401356696911872/user/5838406743490560
