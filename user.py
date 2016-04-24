@@ -49,7 +49,7 @@ class User(webapp2.RequestHandler):
 			q = db_models.User.query()
 			keys = q.fetch(keys_only=True)
 			results = { 'keys' : [x.id() for x in keys]}
-			self.response.write(json.dumps(results))
+			self.response.write(json.dumps(results))	
 
 class UserUpdate(webapp2.RequestHandler):
 	def put(self, **kwargs):
@@ -70,8 +70,21 @@ class UserUpdate(webapp2.RequestHandler):
 			#self.response.write(json.dumps(out))
 
 class UserDelete(webapp2.RequestHandler):
-	def delete(self, **kwargs):
-		print "hello"
+	def get(self, **kwargs):
+		if 'application/json' not in self.request.accept:
+			self.response.status = 406
+			self.response.status_message = "Not Acceptable, API only supports application/json MIME type"
+			return
+		if 'id' in kwargs:
+			user = User()
+			userDict = ndb.Key(db_models.User, int(kwargs['id'])).get().to_dict()
+			user.key = userDict['key']
+			self.response.write(user)
+		else:
+			q = db_models.User.query()
+			keys = q.fetch(keys_only=True)
+			results = { 'keys' : [x.id() for x in keys]}
+			#self.response.write(json.dumps(results))
 		
 class UserSearch(webapp2.RequestHandler):
 	def post(self):

@@ -7,19 +7,27 @@ curl -H "Accept: application/json" http://localhost:8080/user/1234
 ## HTTP POST ##
 ## GOOD ##
 curl --data "username=testuser&email=test@test.com" -H "Accept: application/json" http://localhost:8080/user
-## BAD ##
-- does not include required elements
-curl --data "username=testuser" -H "Accept: application/json" http://localhost:8080/user
-- asking POST from the wrong URL
-curl --data "username=testuser&email=test@test.com" -H "Accept: application/json" http://localhost:8080
-
-## HTTP PUT ##
-## GOOD ##
 curl --data-urlencode "name=Test List" --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/list
 ## BAD ##
 - does not include required elements
+curl --data "username=testuser" -H "Accept: application/json" http://localhost:8080/user
 curl --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/list
-- asking PUT from the wrong URL
+- asking POST from the wrong URL
+curl --data "username=testuser&email=test@test.com" -H "Accept: application/json" http://localhost:8080
 curl --data-urlencode "name=Test List" --data-urlencode "items[]=item 1" --data-urlencode "items[]=item 2" -d "users[]=5838406743490560" -d "users[]=5275456790069248" -H "Accept: application/json" http://localhost:8080/user
 
+## HTTP PUT ##
+## GOOD ##
 curl -X PUT -H "Accept: application/json" http://localhost:8080/list/6401356696911872/user/5838406743490560
+## BAD ##
+- wrong path
+curl -X PUT -H "Accept: application/json" http://localhost:8080/list/6401356696911872/user
+- list does not exist
+curl -X PUT -H "Accept: application/json" http://localhost:8080/list/1234/user/5838406743490560
+- user does not exist
+curl -X PUT -H "Accept: application/json" http://localhost:8080/list/6401356696911872/user/1234
+
+## HTTP DELETE ##
+## GOOD ##
+
+## BAD ##
