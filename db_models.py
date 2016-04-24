@@ -11,18 +11,18 @@ class Update(Model):
 	user_count = ndb.IntegerProperty(required=True)
 	message_count = ndb.IntegerProperty(required=True)
 
-class Channel(Model):
+class List(Model):
 	name = ndb.StringProperty(required=True)
-	topics = ndb.StringProperty(repeated=True)
-	mods = ndb.KeyProperty(repeated=True)
+	items = ndb.StringProperty(repeated=True)
+	users = ndb.KeyProperty(repeated=True)
 	updates = ndb.StructuredProperty(Update, repeated=True)
 
 	def to_dict(self):
-		d = super(Channel,self).to_dict()
-		d['mods'] = [m.id() for m in d['mods']]
+		d = super(List,self).to_dict()
+		d['users'] = [m.id() for m in d['users']]
 		return d
 
-class Mod(Model):
-	nick = ndb.StringProperty(required=True)
-	email = ndb.StringProperty()
+class User(Model):
+	username = ndb.StringProperty(required=True)
+	email = ndb.StringProperty(required=True)
 	name = ndb.StringProperty()
