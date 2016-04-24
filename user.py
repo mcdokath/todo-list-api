@@ -76,10 +76,10 @@ class UserDelete(webapp2.RequestHandler):
 			self.response.status_message = "Not Acceptable, API only supports application/json MIME type"
 			return
 		if 'id' in kwargs:
-			user = User()
-			userDict = ndb.Key(db_models.User, int(kwargs['id'])).get().to_dict()
-			user.key = userDict['key']
-			self.response.write(user)
+			out = ndb.Key(db_models.User, int(kwargs['id'])).get().to_dict()
+			user = out.get()
+			user.key.delete()
+			self.response.write("Deleted user")
 		else:
 			q = db_models.User.query()
 			keys = q.fetch(keys_only=True)

@@ -29,5 +29,5 @@ curl -X PUT -H "Accept: application/json" http://localhost:8080/list/64013566969
 
 ## HTTP DELETE ##
 ## GOOD ##
-
+curl -X DELETE -H "Accept: application/json" http://
 ## BAD ##
