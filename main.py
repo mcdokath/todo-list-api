@@ -5,8 +5,7 @@ app = webapp2.WSGIApplication([
 	('/user', 'user.User'),
 ], debug=True)
 app.router.add(webapp2.Route(r'/user/<id:[0-9]+><:/?>', 'user.User'))
-app.router.add(webapp2.Route(r'/UserUpdate/<id:[0-9]+><:/?>', 'user.UserUpdate'))
-app.router.add(webapp2.Route(r'/UserDelete/<id:[0-9]+><:/?>', 'user.UserDelete'))
+app.router.add(webapp2.Route(r'/user/<uid:[0-9]+><:/?>/list/<lid:[0-9]+><:/?>', 'user.UserList'))
 app.router.add(webapp2.Route(r'/user/search', 'user.UserSearch'))
 app.router.add(webapp2.Route(r'/list', 'list.List'))
 app.router.add(webapp2.Route(r'/list/<lid:[0-9]+><:/?>', 'list.List'))

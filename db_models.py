@@ -13,6 +13,7 @@ class Update(Model):
 
 class List(Model):
 	name = ndb.StringProperty(required=True)
+	author = ndb.KeyProperty(required=True)
 	items = ndb.StringProperty(repeated=True)
 	users = ndb.KeyProperty(repeated=True)
 	updates = ndb.StructuredProperty(Update, repeated=True)
@@ -26,3 +27,9 @@ class User(Model):
 	username = ndb.StringProperty(required=True)
 	email = ndb.StringProperty(required=True)
 	name = ndb.StringProperty()
+	lists = ndb.KeyProperty(repeated=True)
+
+	def to_dict(self):
+		d = super(User,self).to_dict()
+		d['lists'] = [m.id() for m in d['lists']]
+		return d
